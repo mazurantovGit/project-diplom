@@ -1,5 +1,6 @@
 package com.floor.web.controller;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.floor.web.entity.Product;
 import com.floor.web.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,13 @@ import java.util.UUID;
 public class ProductController {
 
     private final ProductService service;
+
+
+    @GetMapping
+    @JsonView
+    public List<Product> list() {
+        return service.getAll();
+    }
 
     @GetMapping("/{uuid}")
     public List<Product> getAllProductByAuthor(@PathVariable UUID uuid) {

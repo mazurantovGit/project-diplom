@@ -16,6 +16,10 @@ public class ProductService {
 
     private final ProductRepository repository;
 
+    public List<Product> getAll(){
+        log.info("get all product");
+        return repository.findAll();
+    }
 
     public List<Product> getAllProductByAuthorId(UUID uuid) {
         log.info("get all product by id: {}", uuid);
