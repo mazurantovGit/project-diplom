@@ -22,7 +22,7 @@ public class ProductController {
     }
 
     @GetMapping("/{authorId}/{uuid}")
-    public Optional<Product> getProductById(@PathVariable UUID authorId, @PathVariable  UUID uuid) {
+    public Product getProductById(@PathVariable UUID authorId, @PathVariable  UUID uuid) {
         return service.getProductById(uuid);
     }
 

@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -23,9 +22,10 @@ public class ProductService {
         return repository.findAllByAuthorId(uuid);
     }
 
-    public Optional<Product> getProductById(UUID uuid) {
+    public Product getProductById(UUID uuid) {
         log.info("get product by id: {}", uuid);
-        return repository.findById(uuid);
+        return repository.findById(uuid).orElseThrow(
+                () -> new IllegalArgumentException("product with id:" + uuid + "does not exist"));
     }
 
     public Product saveProduct(Product product) {
