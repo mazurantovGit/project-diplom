@@ -2,16 +2,13 @@ package com.floor.web.service;
 
 import com.floor.web.entity.Product;
 import com.floor.web.repository.ProductRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
 @Service
 @RequiredArgsConstructor
@@ -23,7 +20,7 @@ public class ProductService {
 
     public List<Product> getAllProductByAuthorId(UUID uuid) {
         log.info("get all product by id: {}", uuid);
-        return repository.getAllByAuthorId(uuid);
+        return repository.findAllByAuthorId(uuid);
     }
 
     public Optional<Product> getProductById(UUID uuid) {
