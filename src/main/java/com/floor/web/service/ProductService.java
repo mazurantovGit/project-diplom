@@ -2,12 +2,13 @@ package com.floor.web.service;
 
 import com.floor.web.entity.Product;
 import com.floor.web.repository.ProductRepository;
-import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -16,17 +17,18 @@ public class ProductService {
 
     private final ProductRepository repository;
 
-    public Flux<Product> getAllProductByAuthorId(UUID uuid) {
+
+    public List<Product> getAllProductByAuthorId(UUID uuid) {
         log.info("get all product by id: {}", uuid);
-        return repository.getAllByAuthorId(uuid);
+        return repository.findAllByAuthorId(uuid);
     }
 
-    public Mono<Product> getProductPyId(UUID uuid) {
+    public Optional<Product> getProductById(UUID uuid) {
         log.info("get product by id: {}", uuid);
         return repository.findById(uuid);
     }
 
-    public Mono<Product> saveProduct(Product product) {
+    public Product saveProduct(Product product) {
         log.info("save product:{}", product);
         return repository.save(product);
     }

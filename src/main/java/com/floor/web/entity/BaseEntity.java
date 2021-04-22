@@ -1,13 +1,11 @@
 package com.floor.web.entity;
 
 
+import lombok.Data;
+
+import javax.persistence.*;
 import java.util.Date;
 import java.util.UUID;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.Version;
-import lombok.Data;
-import org.springframework.data.annotation.Id;
-import javax.persistence.GeneratedValue;
 
 @MappedSuperclass
 @Data
@@ -23,5 +21,10 @@ public abstract class BaseEntity {
     private UUID authorId;
 
     private Date createDate;
+
+    @PrePersist
+    public void setCreateDate() {
+        this.createDate = new Date();
+    }
 
 }
