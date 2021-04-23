@@ -16,7 +16,6 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class Product extends BaseEntity {
 
-
     private String name;
 
     private BigDecimal price;
