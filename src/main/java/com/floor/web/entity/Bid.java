@@ -1,16 +1,20 @@
 package com.floor.web.entity;
 
 import com.floor.web.utils.Constants;
-import java.util.UUID;
+import java.math.BigDecimal;
+import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.persistence.*;
-import java.math.BigDecimal;
-import java.util.List;
 
-
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
 public class Bid extends BaseEntity {

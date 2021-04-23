@@ -16,7 +16,7 @@ import java.util.UUID;
                 @UniqueConstraint(columnNames = "username"),
                 @UniqueConstraint(columnNames = "email")
         })
-public class User {
+public class User  {
 
     @Id
     @GeneratedValue
