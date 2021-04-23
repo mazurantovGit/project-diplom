@@ -1,26 +1,27 @@
-security:
-  oauth2:
-    client:
-      client-secret: 70osxxJftnqHYnHfsrLJgoZf
-      access-token-uri: https://www.googleapis.com/oauth2/v4/token
-      user-authorization-uri: https://accounts.google.com/o/oauth2/v2/auth
-      authentication-scheme: form
-      scope: openid+profile+email
-      client-id: 306464091704-kon7brsa83d8ufjihubdis830k565lh1.apps.googleusercontent.com
-    resource:
-      user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
-      prefer-token-info: true
+#security:
+#  oauth2:
+#    client:
+#      client-secret: 70osxxJftnqHYnHfsrLJgoZf
+#      access-token-uri: https://www.googleapis.com/oauth2/v4/token
+#      user-authorization-uri: https://accounts.google.com/o/oauth2/v2/auth
+#      authentication-scheme: form
+#      scope: openid+profile+email
+#      client-id: 306464091704-kon7brsa83d8ufjihubdis830k565lh1.apps.googleusercontent.com
+#    resource:
+#      user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
+#      prefer-token-info: true
 
 spring:
   main:
     allow-bean-definition-overriding: true
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres
+    url: jdbc:postgresql://localhost:5432/demo
     username: postgres
-    password: postgres
+    password: admin
   jpa:
     generate-ddl: true
     hibernate:
       ddl-auto: update
+    show-sql: true
 server:
   port: 9090

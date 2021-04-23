@@ -12,10 +12,6 @@ import java.util.UUID;
 @Entity
 public class Client extends BaseEntity {
 
-    @javax.persistence.Id
-    @GeneratedValue
-    private UUID id;
-
     private String name;
 
     private String email;

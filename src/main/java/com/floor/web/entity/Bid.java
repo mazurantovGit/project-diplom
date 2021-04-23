@@ -1,6 +1,7 @@
 package com.floor.web.entity;
 
 import com.floor.web.utils.Constants;
+import java.util.UUID;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -14,17 +15,17 @@ import java.util.List;
 @Entity
 public class Bid extends BaseEntity {
 
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "client_id")
-    private Client client;
-
     private BigDecimal payment;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "product_id")
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "bid_product",
+            joinColumns = @JoinColumn(name = "bid_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id")
+    )
     private List<Product> products;
 
     @Enumerated(EnumType.STRING)
     private Constants.StatusBid status;
+
 }

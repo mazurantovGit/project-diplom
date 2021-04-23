@@ -27,6 +27,8 @@ public class Constants {
         @Getter
         private String value;
 
-        StatusBid(String value){ this.value = value;}
+        StatusBid(String value) {
+            this.value = value;
+        }
     }
 }
