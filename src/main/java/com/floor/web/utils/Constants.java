@@ -19,7 +19,7 @@ public class Constants {
     }
 
     /*
-    Статусы заказа(В ожидании, Выполнено, Отменено)
+    Статусы заявки(В ожидании, Выполнено, Отменено)
      */
     public enum StatusBid {
         AWAITING("AWAITING"), DONE("DONE"), CANCELED("CANCELED");
@@ -30,5 +30,14 @@ public class Constants {
         StatusBid(String value) {
             this.value = value;
         }
+    }
+
+    public enum ERole{
+        USER("USER"), ADMIN("ADMIN"), MODERATOR("MODERATOR");
+
+        @Getter
+        private String value;
+
+        ERole(String value){ this.value = value;}
     }
 }

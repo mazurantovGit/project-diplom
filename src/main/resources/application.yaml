@@ -15,9 +15,9 @@ spring:
   main:
     allow-bean-definition-overriding: true
   datasource:
-    url: jdbc:postgresql://localhost:5432/demo
+    url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
-    password: admin
+    password: postgres
   jpa:
     generate-ddl: true
     hibernate:
