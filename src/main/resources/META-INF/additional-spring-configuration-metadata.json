@@ -1,0 +1,13 @@
+{
+  "properties": [
+    {
+      "name": "key.jwtSecret",
+      "type": "java.lang.String",
+      "description": "Description for key.jwtSecret."
+    },
+    {
+      "name": "key.jwtExpirationMs",
+      "type": "java.lang.String",
+      "description": "Description for key.jwtExpirationMs."
+    }
+  ] }

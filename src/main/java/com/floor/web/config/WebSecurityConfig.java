@@ -1,52 +1,81 @@
-//package com.floor.web.config;
-//
-//import com.floor.web.entity.Author;
-//import com.floor.web.repository.AuthorRepository;
-//import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
-//import org.springframework.boot.autoconfigure.security.oauth2.resource.PrincipalExtractor;
-//import org.springframework.context.annotation.Bean;
-//import org.springframework.context.annotation.Configuration;
-//import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-//import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-//import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-//import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
-//
-//import java.security.Principal;
-//import java.time.LocalDateTime;
-//
-//@Configuration
-//@EnableWebSecurity
-//@EnableOAuth2Sso
-//public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-//
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception{
-//        http
-//                .authorizeRequests()
-//                .mvcMatchers("/").permitAll()
-//                .anyRequest().authenticated()
-//                .and()
-//                .csrf().disable();
-//    }
-//
-//    @Bean
-//    public PrincipalExtractor principalExtractor(AuthorRepository repository){
-//        return map -> {
-//            String id = (String) map.get("sub");
-//            Author author = repository.findById(id).orElseGet(()->{
-//                Author newAuthor = new Author();
-//
-//                newAuthor.setId(id);
-//                newAuthor.setName((String) map.get("name"));
-//                newAuthor.setEmail((String) map.get("email"));
-//                newAuthor.setLocale((String) map.get("locale"));
-//                newAuthor.setUserpic((String) map.get("picture"));
-//
-//                return newAuthor;
-//            });
-//            author.setLastVisit(LocalDateTime.now());
-//
-//            return repository.save(author);
-//        };
-//    }
-//}
+
+package com.floor.web.config;
+
+
+import com.floor.web.config.jwt.AuthEntryPointJwt;
+import com.floor.web.config.jwt.AuthTokenFilter;
+import com.floor.web.service.UserDetailsServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+
+@EnableWebSecurity
+@Configuration
+@EnableGlobalMethodSecurity(prePostEnabled = true)
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    UserDetailsServiceImpl userDetailsService;
+
+    @Autowired
+    private AuthEntryPointJwt unauthorizedHandler;
+
+    @Bean
+    public AuthTokenFilter authenticationJwtTokenFilter() {
+        return new AuthTokenFilter();
+    }
+
+    @Override
+    public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
+        authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+    }
+
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+
+        http.cors().and().csrf().disable()
+                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                .authorizeRequests()
+                .antMatchers("/api/auth/**").permitAll()
+                .antMatchers("/api/test/**").permitAll()
+                .anyRequest().authenticated();
+
+        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+
+//		http
+//		.authorizeRequests(authorizeRequests ->
+//				authorizeRequests
+//					.antMatchers("/board/*").hasAnyRole("MANAGER", "OPERATOR")
+//					.antMatchers("/members/*").hasRole("MANAGER")
+//					.antMatchers("/").permitAll())
+//		.httpBasic().realmName("org team")
+//		.and()
+//		.sessionManagement()
+//		.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+    }
+
+
+}
